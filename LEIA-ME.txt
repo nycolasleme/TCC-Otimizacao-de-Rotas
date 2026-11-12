@@ -1,0 +1,91 @@
+RotaFormiga - Otimizacao de Rotas Urbanas com ACO Dinamico (TCC)
+=================================================================
+
+1. COMO ABRIR O SISTEMA (sem console)
+-------------------------------------
+1) Instale o Python (https://www.python.org/downloads/).
+2) Extraia o .zip (botao direito > Extrair tudo). Nao rode de dentro do zip.
+3) De duplo clique em iniciar.bat (Windows) ou execute ./iniciar.sh (Linux/Mac).
+   - Na primeira vez as bibliotecas sao instaladas (2 a 5 minutos, precisa de internet).
+   - Nas proximas vezes abre direto, inclusive SEM internet.
+4) O navegador abre sozinho em http://localhost:8501
+   Para encerrar, feche a janela preta.
+
+Se algo der errado com as bibliotecas, apague o arquivo ".deps_ok" da pasta
+e abra o iniciar.bat de novo (ele reinstala tudo).
+
+Malhas disponiveis:
+ - "Sintetica (Jundiai)": funciona offline (usada nos resultados do TCC).
+ - "OpenStreetMap (real)": baixa o mapa real do centro de Jundiai (internet).
+   Depois do primeiro download, o mapa fica salvo na pasta "cache" e abre offline.
+   Sem internet, o sistema avisa e usa a malha sintetica automaticamente.
+
+
+2. O QUE CADA ABA FAZ
+---------------------
+[Roteamento com multiplas paradas]
+ - Paradas aleatorias (semente) ou ESCOLHIDAS NO MAPA (clique nas intersecoes;
+   o 1o ponto e o deposito).
+ - Otimiza com ACO, AG ou compara os dois (barra de progresso por iteracao).
+ - Ate 10 paradas mostra tambem o OTIMO EXATO (Held-Karp) e o gap.
+ - "Mostrar trilhas de feromonio": desenha onde as formigas depositaram feromonio.
+ - "Evolucao da melhor rota do ACO": arraste para ver a rota melhorando ao longo
+   das iteracoes.
+ - Itinerario detalhado (tempo/distancia por trecho) com download em CSV.
+ - Matriz de feromonio final (mapa de calor).
+
+[Transito dinamico]
+ - Escolha quantas paradas o veiculo ja visitou, o tipo de evento e o raio.
+ - Mostra a posicao do veiculo, vias afetadas, rota original e rota reotimizada.
+ - Tabela comparando as estrategias (sem sistema, A*, ACO reiniciado,
+   ACO reaproveitando feromonio) - mesma logica da Tabela 6 do TCC.
+ - Download do itinerario reotimizado e botao "Limpar transito".
+
+[Ponto a ponto (Dijkstra x A*)]
+ - Compara custo, tempo e nos expandidos; destaca no mapa os nos expandidos
+   de cada algoritmo (mesma ideia da Figura 6 do TCC).
+
+[Experimentos e validacao]
+ - Benchmark ACO x AG no cenario atual (5 a 30 execucoes, boxplot, CSV).
+ - Resultados do TCC (Tabelas 4, 5, 6 e Figuras 6, 9, 10, 11).
+ - Testes de validacao automaticos (12 testes de corretude dos modulos).
+
+
+3. ROTEIRO SUGERIDO PARA A APRESENTACAO (cerca de 8 minutos)
+-------------------------------------------------------------
+1) Abra o sistema e mostre a malha (vertices, arcos, maos unicas).
+2) Aba 1: 20 paradas, ACO -> Otimizar. Mostre convergencia e itinerario.
+3) Ligue "Mostrar trilhas de feromonio" e arraste a "Evolucao da melhor rota".
+4) Mude para "Comparar ACO x AG" -> Otimizar. Compare tempos e custos.
+5) Mude para 8 paradas -> Otimizar: o ACO atinge o OTIMO EXATO (Held-Karp).
+6) Volte para 20 paradas, otimize com ACO e va para a aba Transito dinamico:
+   Acidente, raio 500 m -> Simular. Mostre a economia e a tabela de estrategias.
+7) Aba Ponto a ponto: Comparar Dijkstra x A* e alterne os nos expandidos.
+8) Aba Experimentos: rode os Testes de validacao (12/12) e mostre os
+   Resultados do TCC.
+Dica: abra o sistema ANTES da apresentacao para as bibliotecas ja estarem
+instaladas, e deixe a malha "Sintetica (Jundiai)" para nao depender de internet.
+
+
+4. REPRODUZIR OS RESULTADOS DO CAPITULO 3
+-----------------------------------------
+   python experimentos.py sintetico   -> resultados/*.csv (30 execucoes)
+   python experimentos.py osm         -> mesmos experimentos no mapa real
+   python graficos.py                 -> figuras em figuras/
+   python testes.py                   -> testes de validacao
+
+
+5. ARQUIVOS
+-----------
+   grafo.py           Modulo 1 - malha viaria (OSM ou sintetica) como digrafo ponderado
+   caminho_minimo.py  Modulo 2 - Dijkstra, A* e matriz de custos
+   transito.py        Modulo 3 - simulador de eventos de transito
+   aco.py             Modulo 4 - Colonia de Formigas (MAX-MIN, elitista)
+   dinamico.py        Modulo 4 - reotimizacao dinamica com reaproveitamento de feromonio
+   ag.py              Modulo 5 - Algoritmo Genetico
+   exato.py           Forca bruta e Held-Karp (referencia de otimo)
+   experimentos.py    Modulo 6 - execucao dos experimentos
+   graficos.py        Modulo 6 - geracao das figuras
+   testes.py          Testes de validacao
+   app.py             Interface grafica (Streamlit + Plotly)
+   iniciar.bat/.sh    Inicializacao com duplo clique
