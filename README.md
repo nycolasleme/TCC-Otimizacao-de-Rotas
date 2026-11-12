@@ -28,9 +28,9 @@
 | :--- | :--- | :--- |
 | **🗺️ Malha Viária** | Modela a cidade como um dígrafo ponderado georreferenciado. | Suporta malha **Sintética (Jundiaí-SP)** 100% offline e **OpenStreetMap** real com cache local. |
 | **📍 Caminho Mínimo** | Calcula rotas entre interseções e gera a matriz de custos assimétrica. | Comparação visual entre **Dijkstra** e **A\*** com heurística geodésica admissível (Haversine). |
-| **🐜 ACO Estático** | Resolve o Problema do Caixeiro Viajante Assimétrico (ATSP) | Trilhas de feromônio ($\tau$) no mapa, slider de evolução por iteração, mapa de calor e exportação CSV |
-| **🚦 Trânsito Dinâmico** | Reotimiza a rota com o veículo já em movimento após incidentes. | Atualização seletiva da matriz de custos e *warm start* com reaproveitamento de feromônio[cite: 4, 9, 10] |
-| **📊 Validação & TCC** | Compara meta-heurísticas e métodos exatos | Benchmark **ACO × Algoritmo Genético (AG)**, **Held-Karp** (ótimo exato) e 12 testes automáticos[cite: 3, 8, 18] |
+| **🐜 ACO Estático** | Resolve o Problema do Caixeiro Viajante Assimétrico (ATSP). | Trilhas de feromônios no mapa, slider de evolução por iteração, mapa de calor e exportação CSV. |
+| **🚦 Trânsito Dinâmico** | Reotimiza a rota com o veículo já em movimento após incidentes. | Atualização seletiva da matriz de custos e *warm start* com reaproveitamento de feromônio. |
+| **📊 Validação & TCC** | Compara meta-heurísticas e métodos exatos. | Benchmark **ACO × Algoritmo Genético (AG)**, **Held-Karp** (ótimo exato) e 12 testes automáticos. |
 
 ---
 
